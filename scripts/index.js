@@ -8,21 +8,21 @@ const cardTemplate = document.querySelector("#card-template").content;
 
 // @todo: Функция создания карточки
 
-function createCard() {
-  initialCards.forEach(function (card) {
+function createCard(card, deleter) {
+  
     const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-
-    cardElement.querySelector(".card__image").src = card.link;
-    cardElement.querySelector(".card__title").textContent = card.name;
-
-    cardContainer.append(cardElement);
-
     const deleteButton = cardElement.querySelector(".card__delete-button");
 
+    cardElement.querySelector(".card__image").src = card.link;
+    cardElement.querySelector(".card__image").alt = `Фотография места: ${card.name}`;
+    cardElement.querySelector(".card__title").textContent = card.name;
+
+
     deleteButton.addEventListener("click", function () {
-      deleteCard(cardElement);
-    });
+      deleter(cardElement);
   });
+
+    return cardElement;
 }
 
 // @todo: Функция удаления карточки
@@ -32,5 +32,7 @@ function deleteCard(cardItem) {
 }
 
 // @todo: Вывести карточки на страницу
-
-createCard();
+initialCards.forEach(function (card) {
+  const cardElement = createCard(card, deleteCard);
+  cardContainer.append(cardElement);
+});
