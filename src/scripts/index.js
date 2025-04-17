@@ -36,3 +36,4 @@ initialCards.forEach(function (card) {
   const cardElement = createCard(card, deleteCard);
   cardContainer.append(cardElement);
 });
+
