@@ -127,6 +127,7 @@ function handleAvatarSubmit(evt) {
     .finally(() => renderLoading(false, submitButton));
 }
 
+
 editButton.addEventListener("click", openEditProfilePopup);
 addButton.addEventListener("click", () => openPopup(newCardPopup));
 formProfile.addEventListener("submit", handleProfileSubmit);

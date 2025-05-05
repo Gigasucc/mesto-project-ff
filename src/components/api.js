@@ -6,6 +6,23 @@ const config = {
   }
 };
 
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+};
+
+
+const fetchWithErrorHandling = (url, options = {}) => {
+  return fetch(url, options)
+    .then(handleResponse)
+    .catch(err => {
+      console.error(`Ошибка запроса к ${url}:`, err);
+      throw err; 
+    });
+};
+
 export const getUserInfo = () => {
   return fetchWithErrorHandling(`${config.baseUrl}/users/me`, {
     headers: config.headers
