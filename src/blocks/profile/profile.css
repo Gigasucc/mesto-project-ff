@@ -13,10 +13,31 @@
   padding: 36px 0;
 }
 
+
 @media screen and (max-width: 480px) {
   .profile {
     padding: 43px 0;
     flex-direction: column;
     text-align: center;
   }
+}
+
+
+
+.profile__image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6) url('../../images/profile_edit.svg') no-repeat center;
+  background-size: 24px 24px;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.profile__image:hover::after {
+  opacity: 1;
 }
