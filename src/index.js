@@ -26,14 +26,15 @@ const cardLinkInput = newCardForm.querySelector(".popup__input_type_url");
 
 const cardList = document.querySelector(".places__list");
 
-
 const avatarPopup = document.querySelector('.popup_type_avatar');
 const avatarForm = avatarPopup.querySelector('.popup__form');
 const avatarInput = avatarForm.querySelector('.popup__input_type_url');
 const profileAvatar = document.querySelector('.profile__image');
 
-document.querySelectorAll(".popup").forEach(setPopupListeners);
-
+document.querySelectorAll(".popup").forEach(popup => {
+  setPopupListeners(popup);
+  popup.classList.add("popup_is-animated"); 
+});
 
 function openImagePopup(link, name) {
   imageElement.src = link;
@@ -52,7 +53,6 @@ function renderInitialCards(cards, userId) {
   });
 }
 
-
 const formProfile = editPopup.querySelector(".popup__form");
 const nameInput = formProfile.querySelector(".popup__input_type_name");
 const jobInput = formProfile.querySelector(".popup__input_type_description");
@@ -68,6 +68,7 @@ function renderLoading(isLoading, buttonElement, defaultText = "Сохранит
 function openEditProfilePopup() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
+  clearValidation(formProfile, validationConfig);
   openPopup(editPopup);
 }
 
@@ -127,9 +128,15 @@ function handleAvatarSubmit(evt) {
     .finally(() => renderLoading(false, submitButton));
 }
 
+editButton.addEventListener("click", () => {
+  openEditProfilePopup();
+});
 
-editButton.addEventListener("click", openEditProfilePopup);
-addButton.addEventListener("click", () => openPopup(newCardPopup));
+addButton.addEventListener("click", () => {
+  clearValidation(newCardForm, validationConfig); 
+  openPopup(newCardPopup);
+});
+
 formProfile.addEventListener("submit", handleProfileSubmit);
 newCardForm.addEventListener("submit", handleAddCardSubmit);
 avatarForm.addEventListener("submit", handleAvatarSubmit);
@@ -138,7 +145,6 @@ profileAvatar.addEventListener("click", () => {
   clearValidation(avatarForm, validationConfig);
   openPopup(avatarPopup);
 });
-
 
 Promise.all([getUserInfo(), getInitialCards()])
   .then(([userData, cards]) => {
@@ -162,18 +168,3 @@ const validationConfig = {
 };
 
 enableValidation(validationConfig);
-
-
-const profileForm = document.forms['edit-profile'];
-const newPlaceForm = document.forms['new-place'];
-
-const openProfilePopup = () => {
-  clearValidation(profileForm, validationConfig);
-};
-
-const openNewPlacePopup = () => {
-  clearValidation(newPlaceForm, validationConfig);
-};
-
-editButton.addEventListener('click', openProfilePopup);
-addButton.addEventListener('click', openNewPlacePopup);

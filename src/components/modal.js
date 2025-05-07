@@ -1,20 +1,11 @@
 function openPopup(popup) {
-  popup.classList.add("popup_is-animated");
-
-  requestAnimationFrame(() => {
-    popup.classList.add("popup_is-opened");
-  });
-
+  popup.classList.add("popup_is-opened");
   document.addEventListener("keydown", handleEscClose);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscClose);
-
-  setTimeout(() => {
-    popup.classList.remove("popup_is-animated");
-  }, 600);
 }
 
 function handleEscClose(evt) {

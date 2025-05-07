@@ -1,4 +1,4 @@
-import { likeCard, unlikeCard } from './api.js';
+import { likeCard, unlikeCard, deleteCard as deleteCardApi } from './api.js';
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -30,10 +30,8 @@ function createCard(cardData, { onImageClick, userId }) {
   cardTitle.textContent = name;
   likeCountElement.textContent = likes.length;
 
-
   const isLikedByUser = likes.some(user => user._id === userId);
   toggleLikeClass(likeButton, isLikedByUser);
-
 
   likeButton.addEventListener("click", () => {
     const isLiked = likeButton.classList.contains("card__like-button_is-active");
@@ -50,7 +48,11 @@ function createCard(cardData, { onImageClick, userId }) {
   if (owner._id !== userId) {
     deleteButton.remove();
   } else {
-    deleteButton.addEventListener("click", () => deleteCard(cardElement));
+    deleteButton.addEventListener("click", () => {
+      deleteCardApi(_id)
+        .then(() => deleteCard(cardElement))
+        .catch(err => console.error("Ошибка при удалении карточки:", err));
+    });
   }
 
   cardImage.addEventListener("click", () => onImageClick(link, name));
@@ -59,4 +61,3 @@ function createCard(cardData, { onImageClick, userId }) {
 }
 
 export { createCard, deleteCard };
-
